@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
 
 let userSchema = new mongoose.Schema({
     name : {type : String, required : true},
@@ -7,8 +6,8 @@ let userSchema = new mongoose.Schema({
     password : {type : String , required : true },
     role : {type : String , enum :['ADMIN','OPERATOR'], default : 'OPERATOR'},
 },{
-    timestamp : true
+    timestamps : true
 });
 
-
+export default mongoose.model('User',userSchema)
 
