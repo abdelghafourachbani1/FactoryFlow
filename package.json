@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/abdelghafourachbani1/FactoryFlow/issues"
   },
-  "homepage": "https://github.com/abdelghafourachbani1/FactoryFlow#readme"
+  "homepage": "https://github.com/abdelghafourachbani1/FactoryFlow#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3"
+  }
 }
