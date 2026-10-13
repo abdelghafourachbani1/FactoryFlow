@@ -1,22 +1,21 @@
-import { findUserByEmailser } from "../services/user.service";
+import { loginService } from '../services/user.service.js';
 
-export async function findUserByEmailcon(req,res) {
-let authHeader = req.headers.authorization;
+export async function loginCtrl(req, res) {
+    try {
+        const { email, password } = req.body;
+        
+        const result = await loginService(email, password);
 
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-        try {
-            let token = authHeader.split(' ')[1];
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);            
-            req.user = await User.findUserByEmailser(decoded.userId).select('-password');
-            if (!req.user) {
-                return res.status(401).json({ success: false, message: 'User with this token not found' });
-            }
-            next();
-        } catch (error) {
-            console.error(error);
-            return res.status(401).json({ success: false, message: 'Token is invalid or expired' });
-        }
-    } else {
-        return res.status(401).json({ success: false, message: 'Access denied. No token provided.' });
+        return res.status(200).json({
+            success: true,
+            message: 'Login successful',
+            ...result
+        });
+
+    } catch (error) {
+        return res.status(401).json({ 
+            success: false, 
+            message: error.message || 'Server error during login' 
+        });
     }
 }
