@@ -76,3 +76,21 @@ export async function deleteMatierPrCtrl(req, res) {
         });
     }
 }
+
+export async function addStockCtrl(req, res) {
+    try {
+        const { id } = req.params;
+        const { quantity } = req.body;
+        const updatedMatier = await addStockService(id, quantity);
+        return res.status(200).json({
+            success: true,
+            message: 'stock augmented',
+            data: updatedMatier
+        });
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+}

@@ -35,3 +35,11 @@ export async function updatMatierrep(id,data) {
     );
     return matier;
 }
+
+export async function incrementStockRep(id, quantity) {
+    return await MatierPr.findByIdAndUpdate(
+        id,
+        { $inc: { stockQuantity: quantity } },
+        { new: true }
+    );
+}

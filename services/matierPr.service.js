@@ -1,4 +1,4 @@
-import {createMatierPrrep,allmatierPrrep,matierPrByIdrep,matierPrByRefrep,deleteMatierrep,updatMatierrep} from '../repositories/matierPr.reposetorie.js';
+import {createMatierPrrep,allmatierPrrep,matierPrByIdrep,matierPrByRefrep,deleteMatierrep,updatMatierrep , incrementStockRep} from '../repositories/matierPr.reposetorie.js';
 
 export async function createMatierPrSer(data) {
     let {referance} = data;
@@ -30,4 +30,12 @@ export async function updateMatierPrSer(id, data) {
 export async function deleteMatierPrSer(id) {
    await getMatierPrByIdSer(id);
    return await deleteMatierrep(id);
+}
+
+export async function addStockService(id, quantity) {
+    await getMatierPrByIdSer(id);
+    if (!quantity || quantity <= 0) {
+        throw new Error("la quantity doit etre more then zero");
+    }
+    return await incrementStockRep(id, quantity);
 }
