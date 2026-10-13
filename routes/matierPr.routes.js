@@ -7,7 +7,6 @@ import { authorizeRoles } from '../middlewares/role.middleware.js';
 const router = express.Router();
 
 router.use(authmiddleware);
-
 router.post('/', authorizeRoles('ADMIN', 'OPERATOR'), createMatierPrCtrl);
 router.get('/', getAllMatierPrCtrl);
 router.get('/:id', getMatierPrByIdCtrl);

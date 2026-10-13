@@ -1,9 +1,9 @@
-import User from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import findUserByEmailrep from '../repositories/user.reposetorie.js';
 
 export async function loginService(email, password) {
-    const user = await User.findOne({ email });
+    const user = await findUserByEmailrep(email)
     if (!user) {
         throw new Error('Invalid email or password');
     }

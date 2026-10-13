@@ -1,5 +1,4 @@
 import 'dotenv/config';
-dotenv.config();
 import connect from './config/db.js';
 import AdminRoute from './routes/admin.routes.js';
 import authRoutes from './routes/auth.routes.js';
