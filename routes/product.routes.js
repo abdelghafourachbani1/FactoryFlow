@@ -19,4 +19,4 @@ router.get('/:id', getProductByIdCtrl);
 router.put('/:id', authorizeRoles('ADMIN', 'OPERATOR'), updateProductCtrl);
 router.delete('/:id', authorizeRoles('ADMIN'), deleteProductCtrl);
 
-export default router;
+export default router;  
