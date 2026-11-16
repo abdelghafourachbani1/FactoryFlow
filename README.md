@@ -50,6 +50,8 @@ Créer un ordre (`POST /api/orders`) avec les identifiants produit et opérateur
 
 Les ordres figent leur composition à la création. Les statuts stockés sont `PLANIFIED`, `IN_PROGRESS`, `COMPLETED`, `CANCELLED`. Les filtres de liste acceptent `status`, `product`, `startDate`, `endDate`, `page`, `limit` (maximum 100). Le schéma OpenAPI est disponible sur Swagger UI à `/api-docs` et en JSON sur `/api-docs.json`.
 
+La liste détaillée des endpoints, des rôles, des corps de requête et des réponses est dans [docs/api-endpoints.md](docs/api-endpoints.md).
+
 Le calendrier cible et le diagramme UML sont fournis dans [docs/planification-et-modele.md](docs/planification-et-modele.md).
 Le backlog prêt à importer dans Jira et le déroulé de soutenance sont fournis dans [docs/jira-import.csv](docs/jira-import.csv) et [docs/soutenance.md](docs/soutenance.md).
 
@@ -57,4 +59,4 @@ Pour rejouer automatiquement la démonstration complète après `docker compose 
 
 Après un redémarrage des conteneurs, vérifier l’installation et un ordre existant avec `DEMO_ADMIN_EMAIL=... DEMO_ADMIN_PASSWORD='...' PERSISTENCE_ORDER_REFERENCE=DEMO-OF-... npm run verify:persistence`.
 
-Les diagrammes de planification Gantt/Jira ne sont pas stockés dans ce dépôt ; ils doivent être produits dans l’outil de suivi demandé pour la soutenance.
+Le fichier Jira est un backlog d’import, pas une preuve d’activité dans un espace Jira. Après import, reporter les véritables dates et états dans le projet Jira utilisé pour la soutenance.
