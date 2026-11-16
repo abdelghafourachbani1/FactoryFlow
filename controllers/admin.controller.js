@@ -2,11 +2,10 @@ import { checkadmin , createAdminser} from "../services/admin.service.js";
 
 export async function admincheck(req,res) {
     try{
-        let admin = await checkadmin();
-        let isInstalled = !!admin
+        let isInstalled = await checkadmin();
         return res.status(200).json({isInstalled });
     }catch(error){
-        return res.status(500).json({ message: "Internal server error" });
+            return res.status(500).json({ message: "Internal server error" });
     }
 }
 
@@ -20,6 +19,6 @@ export async function createAdminCon(req,res) {
             user: { id: newadmin._id, name: newadmin.name, email: newadmin.email, role: newadmin.role } 
         });
     }catch(error){
-        res.status(400).json({ success: false, message: error.message });
+        res.status(error.statusCode || (error.code === 11000 ? 409 : 400)).json({ success: false, message: error.message });
     }
 }

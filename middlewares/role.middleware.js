@@ -1,4 +1,5 @@
-export function authorizeRoles(allowedRoles) {
+export function authorizeRoles(...roleArguments) {
+    const allowedRoles = roleArguments.flat();
     return (req, res, next) => {
         if (!req.user) {
             return res.status(401).json({ success: false, message: 'Non autorisé. Utilisateur non authentifié.' });}

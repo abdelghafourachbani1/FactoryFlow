@@ -10,16 +10,16 @@ let userSchema = new mongoose.Schema({
     timestamps : true
 });
 
-userSchema.pre('save', async function(next)  {
-    if (!this.isModified("password")) return next();
-    try {
-        const saltRounds = 10;
-        this.password = await bcrypt.hash(this.password, saltRounds);
-        next();
-    } catch (error) {
-        next(error);
-    }
+userSchema.pre('save', async function() {
+    if (!this.isModified('password')) return;
+    this.password = await bcrypt.hash(this.password, 10);
 })
+
+userSchema.methods.toJSON = function () {
+    const value = this.toObject();
+    delete value.password;
+    return value;
+};
 
 export default mongoose.model('User',userSchema)
 

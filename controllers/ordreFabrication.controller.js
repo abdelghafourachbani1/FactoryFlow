@@ -5,7 +5,7 @@ import {
     updateOrderService,
     cancelOrderService
 } from '../services/ordreFabrication.service.js';
-import { startOrderService, completeOrderService } from '../services/ordreFabrication.service.js';
+import { startOrderService, completeOrderService, getMyOrdersService } from '../services/ordreFabrication.service.js';
 
 export async function createOrderCtrl(req, res) {
     try {
@@ -16,29 +16,39 @@ export async function createOrderCtrl(req, res) {
             data: order
         });
     } catch (error) {
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(error.statusCode || (error.code === 11000 ? 409 : 400)).json({ success: false, message: error.message });
     }
 }
 
 export async function getAllOrdersCtrl(req, res) {
     try {
-        const result = await getAllOrdersService(req.query);
+        const result = await getAllOrdersService(req.query, req.user.role === 'OPERATOR' ? req.user.userId : undefined);
         return res.status(200).json({
             success: true,
             ...result
         });
     } catch (error) {
-        return res.status(500).json({ success: false, message: error.message });
+        return res.status(error.statusCode || 400).json({ success: false, message: error.message });
     }
 }
 
 export async function getOrderByIdCtrl(req, res) {
     try {
         const order = await getOrderByIdService(req.params.id);
+        if (req.user.role === 'OPERATOR' && order.operator._id.toString() !== req.user.userId) return res.status(403).json({ success: false, message: 'Cet ordre ne vous est pas affecté.' });
         return res.status(200).json({ success: true, data: order });
     } catch (error) {
         return res.status(404).json({ success: false, message: error.message });
     }
+}
+
+export async function getMyOrdersCtrl(req, res) {
+    try { const data = await getMyOrdersService(req.user.userId, req.query.status); return res.json({ success: true, data }); }
+    catch (error) { return res.status(400).json({ success: false, message: error.message }); }
+}
+export async function getOrderHistoryCtrl(req, res) {
+    try { const data = await getMyOrdersService(req.user.userId, 'COMPLETED'); return res.json({ success: true, data }); }
+    catch (error) { return res.status(400).json({ success: false, message: error.message }); }
 }
 
 export async function updateOrderCtrl(req, res) {
@@ -50,7 +60,7 @@ export async function updateOrderCtrl(req, res) {
             data: order
         });
     } catch (error) {
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(error.statusCode || (error.code === 11000 ? 409 : 400)).json({ success: false, message: error.message });
     }
 }
 
@@ -63,7 +73,7 @@ export async function cancelOrderCtrl(req, res) {
             data: order
         });
     } catch (error) {
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(error.statusCode || (error.code === 11000 ? 409 : 400)).json({ success: false, message: error.message });
     }
 }
 
@@ -77,7 +87,7 @@ export async function startOrderCtrl(req, res) {
             data: order
         });
     } catch (error) {
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(error.statusCode || (error.code === 11000 ? 409 : 400)).json({ success: false, message: error.message });
     }
 }
 
@@ -90,6 +100,6 @@ export async function completeOrderCtrl(req, res) {
             data: order
         });
     } catch (error) {
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(error.statusCode || (error.code === 11000 ? 409 : 400)).json({ success: false, message: error.message });
     }
 }

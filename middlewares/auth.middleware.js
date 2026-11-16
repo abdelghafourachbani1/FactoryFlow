@@ -11,6 +11,7 @@ export async function authmiddleware(req, res, next) {
             if (!req.user) {
                 return res.status(401).json({ success: false, message: 'User with this token not found' });
             }
+            req.user = { ...req.user.toObject(), userId: req.user._id.toString() };
             next();
         } catch (error) {
             console.error(error);

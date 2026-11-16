@@ -1,6 +1,7 @@
 import OrdreFabrication from '../models/ordreFabrication.model.js';
 
 export async function createOrderRep(data) {
+    await OrdreFabrication.init();
     return await OrdreFabrication.create(data);
 }
 
@@ -17,11 +18,23 @@ export async function findAllOrdersRep(filterQuery, skip, limit) {
     return { orders, total };
 }
 
-export async function findOrderByIdRep(id) {
-    return await OrdreFabrication.findById(id)
+export async function findOperatorOrdersRep(operatorId, status) {
+    const filter = { operator: operatorId };
+    if (status) filter.status = status;
+    return OrdreFabrication.find(filter).populate('product', 'name reference').populate('compositionSnapshot.rawMaterial', 'name unit').sort({ createdAt: -1 });
+}
+
+export async function changeOrderStatusInSession(id, fromStatus, toStatus, dateField, date, session) {
+    return OrdreFabrication.updateOne({ _id: id, status: fromStatus }, { $set: { status: toStatus, [dateField]: date } }, { session });
+}
+
+export async function findOrderByIdRep(id, session) {
+    let query = OrdreFabrication.findById(id)
         .populate('product')
         .populate('operator', 'name email role')
         .populate('compositionSnapshot.rawMaterial');
+    if (session) query = query.session(session);
+    return query;
 }
 
 export async function updateOrderRep(id, data) {

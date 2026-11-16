@@ -13,10 +13,10 @@ const router = express.Router();
 
 router.use(authmiddleware);
 
-router.post('/', authorizeRoles('ADMIN', 'OPERATOR'), createProductCtrl);
+router.post('/', authorizeRoles('ADMIN'), createProductCtrl);
 router.get('/', getAllProductsCtrl);
 router.get('/:id', getProductByIdCtrl);
-router.put('/:id', authorizeRoles('ADMIN', 'OPERATOR'), updateProductCtrl);
+router.put('/:id', authorizeRoles('ADMIN'), updateProductCtrl);
 router.delete('/:id', authorizeRoles('ADMIN'), deleteProductCtrl);
 
-export default router;  
+export default router;

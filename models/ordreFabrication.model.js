@@ -10,7 +10,7 @@ const ordreFabricationSchema = new mongoose.Schema({
     quantityToProduce: {
         type: Number,
         required: true,
-        min: 1
+        min: 0.0000001
     },
     operator: {
         type: mongoose.Schema.Types.ObjectId,
@@ -27,7 +27,8 @@ const ordreFabricationSchema = new mongoose.Schema({
             rawMaterial: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'MatierPr',
-                required: true
+                required: true,
+                min: 0.0000001
             },
             quantityRequiredPerUnit: {
                 type: Number,
@@ -38,7 +39,9 @@ const ordreFabricationSchema = new mongoose.Schema({
     plannedDate: {
         type: Date,
         required: true
-    }
+    },
+    startDate: Date,
+    endDate: Date
 }, {
     timestamps: true
 });

@@ -15,7 +15,7 @@ export async function createProductCtrl(req, res) {
             data: product
         });
     } catch (error) {
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(error.statusCode || (error.code === 11000 ? 409 : 400)).json({ success: false, message: error.message });
     }
 }
 
@@ -33,7 +33,7 @@ export async function getProductByIdCtrl(req, res) {
         const product = await getProductByIdSer(req.params.id);
         return res.status(200).json({ success: true, data: product });
     } catch (error) {
-        return res.status(404).json({ success: false, message: error.message });
+        return res.status(error.statusCode || (error.name === 'CastError' ? 404 : 400)).json({ success: false, message: error.message });
     }
 }
 
@@ -46,7 +46,7 @@ export async function updateProductCtrl(req, res) {
             data: product
         });
     } catch (error) {
-        return res.status(400).json({ success: false, message: error.message });
+        return res.status(error.statusCode || (error.code === 11000 ? 409 : 400)).json({ success: false, message: error.message });
     }
 }
 
@@ -58,6 +58,6 @@ export async function deleteProductCtrl(req, res) {
             message: 'Produit supprimé avec succès'
         });
     } catch (error) {
-        return res.status(404).json({ success: false, message: error.message });
+        return res.status(error.statusCode || (error.name === 'CastError' ? 404 : 400)).json({ success: false, message: error.message });
     }
 }

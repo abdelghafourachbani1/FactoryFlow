@@ -1,0 +1,9 @@
+Issue Type,Summary,Description,Priority,Original Estimate,Labels
+Task,Cadrage et règles métier,"Analyser le suivi actuel, définir le périmètre et formaliser les règles de stock, rôles et transitions.",High,1d,cadrage
+Task,Modèle UML et architecture,"Définir les entités et multiplicités puis séparer routes, contrôleurs, services, repositories, modèles et middlewares. Dépend de : Cadrage et règles métier.",High,1d,conception
+Task,Docker MongoDB et installation,"Orchestrer API et MongoDB replica set, préparer le volume persistant et créer l’installation atomique du premier Admin. Dépend de : Modèle UML et architecture.",High,1d,infrastructure
+Task,Authentification et permissions,"Ajouter hachage de mots de passe, JWT, profil, création des comptes et autorisations Admin/Opérateur. Dépend de : Docker MongoDB et installation.",High,1d,sécurité
+Task,Matières premières et produits,"Créer les référentiels, valider les références, suivre les mouvements et alertes, gérer les produits et compositions. Dépend de : Authentification et permissions.",High,2d,métier
+Task,Ordres de fabrication,"Créer les ordres et snapshots, affecter les opérateurs, filtrer, démarrer et terminer en transactions. Dépend de : Matières premières et produits.",Highest,2d,production
+Task,Filtres alertes et pagination,"Valider les périodes et paramètres de page, fournir les vues d’alertes et les ordres affectés. Dépend de : Ordres de fabrication.",Medium,1d,api
+Task,Tests documentation et soutenance,"Écrire les tests unitaires, documenter OpenAPI et préparer la démonstration, le Gantt, l’UML et les explications techniques. Dépend de : Filtres alertes et pagination.",High,1d,livraison
